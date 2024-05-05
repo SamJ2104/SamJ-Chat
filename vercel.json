@@ -1,7 +1,20 @@
 {
-  "functions": {
-    "api/*.js": {
-      "runtime": "nodejs12.x"
+  "version": 2,
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "public/**",
+      "use": "@vercel/static"
     }
-  }
+  ],
+  "routes": [
+    { "handle": "filesystem" },
+    {
+      "src": "/message",
+      "dest": "index.js"
+    }
+  ]
 }

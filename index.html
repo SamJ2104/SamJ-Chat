@@ -5,23 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SamJ Chat</title>
   <style>
-    body{
+    body {
       font-family: "Raleway";
     }
-    #message{
+    #message {
       width: 70%;
       height: 50px;
     }
-    button{
+    button {
       width: 20%;
       height: 60px;
     }
-    #messagebox{
+    #messagebox {
       position: fixed;
       bottom: 0;
       width: 100%;
     }
-    #username{
+    #username {
       width: 20%;
     }
   </style>
@@ -33,25 +33,25 @@
     <input type="text" id="username" placeholder="Username"> <br><br>
     <div id="messages"><i>Messages Will Appear Here...</i></div> <br> <br>
     <div id="messagebox">
-    <input type="text" id="message" placeholder="Message">
-    <button onclick="sendMessage()">Send</button>
+      <input type="text" id="message" placeholder="Message">
+      <button onclick="sendMessage()">Send</button>
     </div>
   </div>
   <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
-    <script>
-      // Function to retrieve username from local storage
-      function getUsernameFromLocalStorage() {
-        return localStorage.getItem('username') || '';
-      }
+  <script>
+    // Function to retrieve username from local storage
+    function getUsernameFromLocalStorage() {
+      return localStorage.getItem('username') || '';
+    }
 
-      // Function to save username to local storage
-      function saveUsernameToLocalStorage(username) {
-        localStorage.setItem('username', username);
-      }
+    // Function to save username to local storage
+    function saveUsernameToLocalStorage(username) {
+      localStorage.setItem('username', username);
+    }
 
-      // Set the username field value from local storage
-      document.getElementById('username').value = getUsernameFromLocalStorage();
- 
+    // Set the username field value from local storage
+    document.getElementById('username').value = getUsernameFromLocalStorage();
+
     const pusher = new Pusher('a4784d0a0a48041370f1', {
       cluster: 'eu',
       encrypted: true
@@ -67,12 +67,12 @@
       const username = document.getElementById('username').value;
       const message = document.getElementById('message').value;
 
-            if (!username || !message) {
+      if (!username || !message) {
         alert('Please enter both a username and a message.');
         return;
       }
 
-  saveUsernameToLocalStorage(username); // Save username to local storage
+      saveUsernameToLocalStorage(username); // Save username to local storage
 
       fetch('/message', {
         method: 'POST',
@@ -83,6 +83,27 @@
       })
       .then(() => {
         document.getElementById('message').value = '';
+
+        // Discord webhook integration
+        const webhookUrl = 'https://discord.com/api/webhooks/1260263416803889283/Rth7GXeQrA0C_5ss0ByocogAdYVs_2xBMzJVFp2HWhy7ibxdTO-ZYoOhFrBwMmzVQ__Y'; // Replace with your Discord webhook URL
+        fetch(webhookUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            content: message,
+            username: "AI Message",
+          }),
+        })
+        .then(response => {
+          if (!response.ok) {
+            console.error('Failed to send message to Discord');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
       })
       .catch(error => console.error('Error:', error));
     }

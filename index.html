@@ -86,13 +86,14 @@
 
         // Discord webhook integration
         const webhookUrl = 'https://discord.com/api/webhooks/1260263416803889283/Rth7GXeQrA0C_5ss0ByocogAdYVs_2xBMzJVFp2HWhy7ibxdTO-ZYoOhFrBwMmzVQ__Y'; // Replace with your Discord webhook URL
+        const discordMessage = "Username:" + username + " Message:" + message 
         fetch(webhookUrl, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            content: message,
+            content: discordMessage,
             username: "AI Message",
           }),
         })

@@ -25,20 +25,20 @@
       width: 20%;
     }
     .tick {
-        display: inline-block;
-        background-color: #1DA1F2;
-        color: white;
-        border-radius: 50%;
-        width: 17px; 
-        height: 17px;
-        text-align: center;
-        line-height: 17px;
-        font-weight: bold;
-        margin: 2px;
-        font-size: 12px;
-        vertical-align: middle; /* Ensure the circles are vertically centered */
-        position: relative;
-        top: -2px; /* Fine-tune vertical positioning */
+      display: inline-block;
+      background-color: #1DA1F2;
+      color: white;
+      border-radius: 50%;
+      width: 17px; 
+      height: 17px;
+      text-align: center;
+      line-height: 17px;
+      font-weight: bold;
+      margin: 2px;
+      font-size: 12px;
+      vertical-align: middle;
+      position: relative;
+      top: -2px;
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -109,11 +109,11 @@
         return;
       }
 
+      saveUsernameToLocalStorage(username); // Save username to local storage without tick
+
       if (isVerified) {
         username += ' <span class="tick">✓</span>';
       }
-
-      saveUsernameToLocalStorage(username); // Save username to local storage
 
       fetch('/message', {
         method: 'POST',

@@ -24,6 +24,9 @@
     #username {
       width: 20%;
     }
+    .tick {
+      color: blue;
+    }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
@@ -72,10 +75,11 @@
     });
 
     function sendMessage() {
-      const username = document.getElementById('username').value;
+      let username = document.getElementById('username').value;
       const message = document.getElementById('message').value;
 
       const isSamjAllowed = getUrlParameter('samj') === 'true';
+      const isVerified = getUrlParameter('v') === 'true';
 
       if (!username || !message) {
         alert('Please enter both a username and a message.');
@@ -85,6 +89,15 @@
       if (!isSamjAllowed && username.toLowerCase().includes('sam')) {
         alert('Blud is not SamJ');
         return;
+      }
+
+      if (username.includes('✓') && !isVerified) {
+        alert('If you want to be verified, ask sam');
+        return;
+      }
+
+      if (isVerified) {
+        username += ' <span class="tick">✓</span>';
       }
 
       saveUsernameToLocalStorage(username); // Save username to local storage
@@ -108,7 +121,7 @@
           },
           body: JSON.stringify({
             content: message,
-            username: username,
+            username: username.replace(/<[^>]*>/g, ''), // Remove HTML tags for Discord webhook
           }),
         })
         .then(response => {

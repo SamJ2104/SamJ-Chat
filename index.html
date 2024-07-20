@@ -49,6 +49,14 @@
       localStorage.setItem('username', username);
     }
 
+    // Function to get URL parameters
+    function getUrlParameter(name) {
+      name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+      const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+      const results = regex.exec(location.search);
+      return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
     // Set the username field value from local storage
     document.getElementById('username').value = getUsernameFromLocalStorage();
 
@@ -67,8 +75,15 @@
       const username = document.getElementById('username').value;
       const message = document.getElementById('message').value;
 
+      const isSamjAllowed = getUrlParameter('samj') === 'true';
+
       if (!username || !message) {
         alert('Please enter both a username and a message.');
+        return;
+      }
+
+      if (!isSamjAllowed && username.toLowerCase().includes('samj')) {
+        alert('Blud is not SamJ');
         return;
       }
 
